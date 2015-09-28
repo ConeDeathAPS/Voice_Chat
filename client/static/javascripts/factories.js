@@ -118,3 +118,39 @@ speakeasy.factory('userFactory', function($http, md5) {
 
 	return factory;
 });
+
+speakeasy.factory('socketFactory', function() {
+	var factory = {};	
+	var socket = io.connect();
+	var username = "";
+	// console.log("Is it loading?");
+
+	factory.getCurrentUser = function(user) {
+		username = user;
+		console.log(username);
+	}
+
+	socket.emit('_new_user_logged_in', {username: username});
+
+	socket.on("new_connection", function (username) {
+		var timestamp = new Date();
+		$("#chat_area").append("<span class='bold'>" + username + "</span> Logged in! <span class='timestamp'>"+timestamp+"</span>");
+	});
+
+		
+	//methods here
+		
+
+	return factory;
+});
+
+speakeasy.factory('adminFactory', function() {
+	var errors = [];
+	var users = [];
+	var factory = {};
+	
+	//methods here
+	
+
+	return factory;
+});

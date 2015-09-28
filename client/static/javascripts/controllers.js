@@ -1,8 +1,9 @@
-speakeasy.controller('usersController', function ($scope, $location, $rootScope, $cookies, userFactory, md5) {
+speakeasy.controller('usersController', function ($scope, $location, $rootScope, $cookies, userFactory, md5, socketFactory) {
 	var that = this;
 	that.errors = [];
 	that.users = [];
 	that.errors = [];
+
 
 	//get all users for the user_monitor
 	userFactory.getUsers(function (data) {
@@ -10,13 +11,13 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 	})
 
 	//get the user's info from the factory. This is run every time the page loads.
-	that.getUserInfo = (function () {
+	that.getUserInfo = function () {
 		userFactory.getCurrentUser(function (data) {
 			// console.log(data);
 			that.user = data;
-			console.log(that.user);
+			// console.log(that.user);
 		})
-	})();
+	};
 
 	//initialize login validation functions.
 	that.loginUser = function () {
@@ -36,8 +37,10 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 		userFactory.getLoginInfo(that.login, function (errs, usr) {
 			if (errs[0] === undefined) {
 				that.login = {};
-				$location.path('/chat');
+
 				that.user = usr;
+				socketFactory.getCurrentUser(that.user.username);
+				$location.path('/chat');				
 				// console.log(that.user);
 				// console.log('login success!');
 			} else {
@@ -122,18 +125,9 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 
 })
 
-speakeasy.factory('adminFactory', function() {
-	var errors = [];
-	var users = [];
-	var factory = {};
-	
-	//methods here
-	
 
-	return factory;
-});
 
-speakeasy.controller('adminsController', function ($scope, $location, $cookies, userFactory, adminFactory, md5) {
+speakeasy.controller('adminsController', function ($scope, $location, $cookies, userFactory, adminFactory, md5, socketFactory) {
 	var that = this;
 	that.errors =[];
 	that.admins = [];

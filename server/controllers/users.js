@@ -40,7 +40,7 @@ module.exports = (function () {
 		},
 
 		findOne: function (req, res) {
-			console.log("Retrieving info for req.body.email");
+			console.log("Retrieving info for " + req.body.email);
 			Users.find({email: req.body.email}, function (err, user) {
 				if (err) {
 					console.log("Error getting user from database");

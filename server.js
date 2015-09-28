@@ -26,5 +26,9 @@ var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
 	console.log("New connection ID " + socket.id);
-	// socket.broadcast.emit('new_connection', {username: username});
+	socket.on("new_user_logged_in", function (username) {
+		socket.broadcast.emit('new_connection', {username: username});		
+	});
+	
+
 })

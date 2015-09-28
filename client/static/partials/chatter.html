@@ -1,17 +1,9 @@
 <div ng-controller='adminsController as aControl'>
-<script type="text/javascript">
-$(document).ready(function() {
-	var socket = io.connect();
-	var username = $("input[name='username_get']").val();
-	console.log(username);
-})
-
-</script>
 	<div class="row">
 		<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 			<h1 class="logo-small"><big>NameThing</big></h1>
 			<h3>Welcome {{uControl.user.username}}</h3>
-			<input type="hidden" name="username_get" value="{{uControl.user.username}}">
+			
 			<button id="logout" ng-click="uControl.logout()" class="btn btn-danger">Logout</button>
 		</div>
 	</div>
