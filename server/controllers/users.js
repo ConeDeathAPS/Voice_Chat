@@ -45,9 +45,14 @@ module.exports = (function () {
 				if (err) {
 					console.log("Error getting user from database");
 					res.json({});
-				} else {
+				} else if (user) {
 					console.log(user);
-					res.json(user);				}
+					res.json(user);				
+				} else {
+					console.log("Could not find user.");
+					res.json({});
+				}
+
 			})
 		},
 

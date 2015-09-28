@@ -32,16 +32,25 @@ speakeasy.factory('userFactory', function($http, md5) {
 
 	factory.getCurrentUser = function(grabCurrentUser) {
 		grabCurrentUser(user);
+		// console.log(user);
 	}
 	//===============================END INITIALIZATIOM===========================//
 	
 	factory.getLoginInfo = function (login_info, callback) {
+		errors = [];
 		console.log("http.put activated");
 		$http.put('/users', login_info)
 		.then(function (response) {
-			console.log(response);
-			var user_info = response.data[0];
-			validateLogin(user_info, login_info, callback);
+			if (response.data[0]) {
+				console.log(response);
+				var user_info = response.data[0];
+				validateLogin(user_info, login_info, callback);				
+			} else {
+				console.log("User not found!");
+				errors.push("I couldn't find that email in the database, try again!");
+				callback(errors, {});
+			}
+
 		})
 	}
 
@@ -51,15 +60,15 @@ speakeasy.factory('userFactory', function($http, md5) {
 		var password = login_info.password;
 		var check_pw = password + " " + salt;
 		var enc_check_pw = md5.createHash(check_pw);
-		console.log(user_info.password);
-		console.log(enc_check_pw);
+		// console.log(user_info.password);
+		// console.log(enc_check_pw);s
 		if (enc_check_pw === user_info.password) {
 			user = user_info;
 			errors = [];
 			callback(errors, user);
 		} else {
 			console.log("passwords do not match");
-			errors.push("Password hash comparison failed. Try again.");
+			errors.push("Invalid password. Try again.");
 			callback(errors, user);
 		}
 
@@ -111,22 +120,43 @@ speakeasy.factory('userFactory', function($http, md5) {
 speakeasy.controller('usersController', function ($scope, $location, $rootScope, $cookies, userFactory, md5) {
 	var that = this;
 	that.errors = [];
-	that.user = {};
 	that.users = [];
 	that.errors = [];
 
 	userFactory.getUsers(function (data) {
 		that.users = data;
+		if ($cookies.get('first_name')) {
+				that.user.first_name = $cookies.get('first_name');
+				that.user.last_name = $cookies.get('last_name');
+				that.user.username = $cookies.get('username');
+				that.user.email = $cookies.get('email');
+				that.user.dob = $cookies.get('dob');
+				console.log(that.user);
+		} else {
+			userFactory.getCurrentUser(function (data) {
+				that.user = data;
+			})
+		}
 	})
 
+	that.getUserInfo = (function () {
+		userFactory.getCurrentUser(function (data) {
+			that.user = data;
+			console.log(that.user);
+		})
+	})();
+
 	that.loginUser = function () {
+		that.errors = [];
 		userFactory.getLoginInfo(that.login, function (errs, usr) {
 			if (errs[0] === undefined) {
 				$location.path('/chat');
 				that.user = usr;
+				console.log(that.user);
 				console.log('login success!');
 			} else {
 				that.errors = errs;
+				console.log(that.errors);
 			}
 		});
 	}
@@ -149,11 +179,11 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 		that.errors = (userFactory.validateUserInput(that.newUser));
 		if (that.errors === undefined) {
 			that.newUser = {};
+			$location.path('/chat');
 			userFactory.getCurrentUser(function (data) {
 				that.user = data;
-			})
-			console.log(that.user);	
-			$location.path('/chat');	
+			})	
+			console.log(that.user);
 		}
 
 	}
@@ -174,6 +204,12 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 	that.gotoChatter = function () {
 		console.log('doing this');
 		$location.path('/chat');
+	}
+
+	that.logout = function () {
+		// console.log('got here');
+		that.user = {};
+		$location.path("/");
 	}
 
 })

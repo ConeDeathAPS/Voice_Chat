@@ -51,6 +51,38 @@ input[type=date] {
 	outline: 3px solid rgba(200, 200, 200, 1);
 	box-shadow: 8px 8px 13px grey;
 }
-#user_monitor {
+/*BEGIN CHATTER CSS*/
+	/*USER MONITOR CSS*/
+	.user_monitor {
+		display: inline-block;
+		height: 330px!important;
+		outline: 1px solid black;
+		padding: 5px!important;
+		margin: 15px;
+	}
+	.user_monitor h3 {
+		text-align: center;
+		border-bottom: 2px solid black;
+		margin-top: 5px;
+	}
+.chat_monitor, .user_chat {
+	outline: 1px solid black;
+	display: inline-block!important;
+	height: 300px;
+	padding: 5px!important;
+	margin: 15px;
+}
+#chat_area {
+	height: 89%;
+	border: 3px solid rgba(200, 200, 200, 1);
+	background-color: rgba(220, 220, 220, 1);
+}
+#chat_box {
+	width: 90%;
+	margin-top: 6px;
+}
+.chat_submit {
+	padding: 1px 12px!important;	
+	margin-bottom: 2px!important;
 
 }

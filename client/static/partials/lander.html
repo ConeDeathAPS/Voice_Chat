@@ -8,7 +8,7 @@ $(document).ready(function() {
 })
 </script>
 <div class="row logo" hidden>
-	<h1><big>Welcome to SpeakEasy...</big></h1>
+	<h1><big>Welcome to NameThing..</big></h1>
 </div>
 <div class="row lander" hidden>
 	<div class="col-sm-4 col-md-4 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
@@ -17,6 +17,7 @@ $(document).ready(function() {
 		<!--spans are checking that the user has touched the inputs and then making sure that they have acceptable values. The error messages are nested within the error checking.-->
 			<form id="user_login" name="user_login" novalidate>
 				<h1>Please log in...</h1>
+				<p class="error" ng-repeat="error in uControl.errors"></p>
 				<input type="email" ng-model="uControl.login.email" name="email" placeholder="Email Address..." required>
 				<input type="password" ng-model="uControl.login.password" placeholder="Password..." required>
 				<input type="submit" ng-click="uControl.loginUser()" value="Log In" class="btn btn-primary lander_submit">
