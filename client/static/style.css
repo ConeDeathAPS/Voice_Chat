@@ -83,17 +83,20 @@ input[type=date] {
 	padding: 5px!important;
 	margin: 15px;
 }
-#chat_area {
-	height: 89%;
-	border: 3px solid rgba(200, 200, 200, 1);
-	background-color: rgba(220, 220, 220, 1);
-}
-#chat_box {
-	width: 90%;
-	margin-top: 6px;
-}
-.chat_submit {
-	padding: 1px 12px!important;	
-	margin-bottom: 2px!important;
-
-}
+/*CHAT CSS*/
+	#chat_area {
+		height: 89%;
+		border: 3px solid rgba(200, 200, 200, 1);
+		background-color: rgba(220, 220, 220, 1);
+	}
+	#chat_box {
+		width: 90%;
+		margin-top: 6px;
+	}
+	.chat_submit {
+		padding: 1px 12px!important;	
+		margin-bottom: 2px!important;
+	}
+	.bold {
+		font-weight: bold;
+	}

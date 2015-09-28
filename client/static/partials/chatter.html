@@ -1,35 +1,38 @@
-<div ng-controller='adminsController as aControl'>
-	<div class="row">
-		<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-			<h1 class="logo-small"><big>NameThing</big></h1>
-			<h3>Welcome {{uControl.user.username}}</h3>
-			
-			<button id="logout" ng-click="uControl.logout()" class="btn btn-danger">Logout</button>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
-			<h3>All users</h3>
-			<ul id="user_list">
-				<li class="user_name Offline">Loading Dock</li>
-				<li class="user_name Online">Heat_Death51</li>
-				<li class="user_name Away">ConeDeathAPS</li>
-				<li class="user_name Offline"></li>
-			</ul>
-		</div>
-		<div id="chat_container">
-			<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
-			
-			</div>	
-			<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
-				<div id="chat_area">
-					
-				</div>
-				<form id="chat_form" name="chat_form">
-					<input type="text" name="chat_box" id="chat_box">
-					<input type="submit" class="btn btn-primary chat_submit" value="Chat">
-				</form>					
+<div ng-controller="socketsController as sControl">
+	<div ng-controller='adminsController as aControl'>
+		<div class="row">
+			<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+				<h1 class="logo-small"><big>NameThing</big></h1>
+				<h3>Welcome {{uControl.user.username}}</h3>
+				
+				<button id="logout" ng-click="uControl.logout(); sControl.logout()" class="btn btn-danger">Logout</button>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
+				<h3>All users</h3>
+				<ul id="user_list">
+					<li class="user_name Offline">Loading Dock</li>
+					<li class="user_name Online">Heat_Death51</li>
+					<li class="user_name Away">ConeDeathAPS</li>
+					<li class="user_name Offline"></li>
+				</ul>
+			</div>
+			
+				<div id="chat_container">
+					<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
+					
+					</div>	
+					<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
+						<div id="chat_area">
+							
+						</div>
+						<form id="chat_form" name="chat_form">
+							<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">
+							<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
+						</form>					
+					</div>
+				</div>
 		</div>
 	</div>
 </div>

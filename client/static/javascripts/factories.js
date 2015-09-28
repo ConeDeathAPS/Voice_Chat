@@ -121,25 +121,33 @@ speakeasy.factory('userFactory', function($http, md5) {
 
 speakeasy.factory('socketFactory', function() {
 	var factory = {};	
-	var socket = io.connect();
 	var username = "";
-	// console.log("Is it loading?");
 
+	//==============================USER MANAGEMENT===========================//
 	factory.getCurrentUser = function(user) {
 		username = user;
 		console.log(username);
 	}
 
-	socket.emit('_new_user_logged_in', {username: username});
+	factory.setCurrentUser = function (callback) {
+		callback(username);
+	}
+	//==============================MESSAGE HANDLING==========================//
 
-	socket.on("new_connection", function (username) {
+	factory.receiveMessage = function (message) {
 		var timestamp = new Date();
-		$("#chat_area").append("<span class='bold'>" + username + "</span> Logged in! <span class='timestamp'>"+timestamp+"</span>");
-	});
+		$('#chat_area').append("<span class='bold'>"+username+"</span>: " + message + "<span class='timestamp'>"+timestamp+"</span>");
+	}
 
-		
-	//methods here
-		
+	factory.newUser = function (name) {
+		var timestamp = new Date();
+		$("#chat_area").append("<span class='bold'>" + username + "</span> Logged in! <span class='timestamp'>"+timestamp+"</span>");	
+	}
+
+	factory.userLogoff = function (username) {
+		var timestamp = new Date();
+		$('#chat_area').append("<span class='bold'>"+username+"</span> left the chat.");
+	} 
 
 	return factory;
 });

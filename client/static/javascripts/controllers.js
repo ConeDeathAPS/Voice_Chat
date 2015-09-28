@@ -122,10 +122,46 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 		that.user = {};
 		$location.path("/");
 	}
-
 })
 
+speakeasy.controller('socketsController', function ($scope, socketFactory) {
+	var that = this;
+	that.username = "";
+	var socket = io.connect();
 
+//The way this controller works is that all socket listeners and emitters will be HERE in the controller. All HTML modification and clientside updates are provided by the factory. Most of these socket listeners will simply call a factory function.
+
+	socketFactory.setCurrentUser(function (data) {
+		that.username = data;
+	})
+
+	that.logout = function () {
+		console.log('sending user logoff message');
+		socket.emit('disconnect', {user: that.username});
+	}
+
+	that.firstEmit = (function () {
+		console.log("sending new user emit");
+		socket.emit('new_user_logged_in', {username: that.username});	
+	})();
+
+	that.sendMessage = function () {
+		socket.emit('new_message_bcast', {message:that.chat.message, username: that.username});
+	}
+
+	socket.on("incoming_message", function (data) {
+		socketFactory.receiveMessage(data);
+		console.log(data);
+	})
+
+	socket.on("new_connection", function (username) {
+		socketFactory.newUser(username);
+	})
+
+	socket.on('user_left', function (data) {
+		socketFactory.userLogoff(data);
+	})
+})
 
 speakeasy.controller('adminsController', function ($scope, $location, $cookies, userFactory, adminFactory, md5, socketFactory) {
 	var that = this;
