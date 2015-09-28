@@ -17,7 +17,6 @@ $(document).ready(function() {
 		<!--spans are checking that the user has touched the inputs and then making sure that they have acceptable values. The error messages are nested within the error checking.-->
 			<form id="user_login" name="user_login" novalidate>
 				<h1>Please log in...</h1>
-				<p class="error" ng-repeat="error in uControl.errors"></p>
 				<input type="email" ng-model="uControl.login.email" name="email" placeholder="Email Address..." required>
 				<input type="password" ng-model="uControl.login.password" placeholder="Password..." required>
 				<input type="submit" ng-click="uControl.loginUser()" value="Log In" class="btn btn-primary lander_submit">
@@ -26,6 +25,7 @@ $(document).ready(function() {
 					<span class="error" ng-show="user_login.email.$error.email">Please enter a valid email address.</span>
 				</span>
 			</form>
+			<p class="error" ng-repeat="error in uControl.errors">{{error}}</p>
 			<button ng-click="uControl.gotoChatter()">Straight to chatter</button>
 		<!--==============================REGISTRATION FORM==============================-->
 		<!--Further validation will be added at a later date-->

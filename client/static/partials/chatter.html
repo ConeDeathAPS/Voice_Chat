@@ -1,8 +1,17 @@
 <div ng-controller='adminsController as aControl'>
+<script type="text/javascript">
+$(document).ready(function() {
+	var socket = io.connect();
+	var username = $("input[name='username_get']").val();
+	console.log(username);
+})
+
+</script>
 	<div class="row">
 		<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 			<h1 class="logo-small"><big>NameThing</big></h1>
 			<h3>Welcome {{uControl.user.username}}</h3>
+			<input type="hidden" name="username_get" value="{{uControl.user.username}}">
 			<button id="logout" ng-click="uControl.logout()" class="btn btn-danger">Logout</button>
 		</div>
 	</div>
@@ -10,19 +19,16 @@
 		<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
 			<h3>All users</h3>
 			<ul id="user_list">
-				<li class="user_name">Loading Dock</li>
+				<li class="user_name Offline">Loading Dock</li>
 				<li class="user_name Online">Heat_Death51</li>
 				<li class="user_name Away">ConeDeathAPS</li>
 				<li class="user_name Offline"></li>
-				<li class="user_name"></li>
 			</ul>
 		</div>
 		<div id="chat_container">
 			<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
 			
-			</div>
-		
-		
+			</div>	
 			<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
 				<div id="chat_area">
 					

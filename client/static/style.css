@@ -65,6 +65,17 @@ input[type=date] {
 		border-bottom: 2px solid black;
 		margin-top: 5px;
 	}
+	.user_monitor li {
+		list-style-type: none;
+	}
+	.Online {
+		color: green;
+		font-weight: bold;
+	}
+	.Away {
+		color: orange;
+		font-weight: bold;
+	}
 .chat_monitor, .user_chat {
 	outline: 1px solid black;
 	display: inline-block!important;

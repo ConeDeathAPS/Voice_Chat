@@ -14,8 +14,6 @@ var routes = require("./server/config/routes.js");
 
 routes(app);
 
-var io = require('socket.io').listen(server);
-
 var port = 1234;
 
 var server = app.listen(port, function() {
@@ -24,6 +22,9 @@ var server = app.listen(port, function() {
   console.log("|-------------------------------|")
 });
 
+var io = require('socket.io').listen(server);
+
 io.sockets.on('connection', function (socket) {
-	
+	console.log("New connection ID " + socket.id);
+	// socket.broadcast.emit('new_connection', {username: username});
 })
