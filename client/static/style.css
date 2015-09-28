@@ -1,0 +1,56 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+body {
+	padding: 15px;
+}
+h1 {
+	text-align: center;
+}
+.logo {
+	margin-top: 15%;
+}
+.logo h1 {
+	font-size: 5em!important;
+}
+.btn {
+	border-radius: 0px!important;
+}
+#user_login, #user_registration {
+	padding: 15px;
+	display: block!important;
+	margin: 0 auto;
+	width: 74%;
+}
+input[type=date] {
+	width: 174px!important;
+}
+#logout {
+	float: right;
+}
+.lander {
+	margin-top: 6%;
+}
+.lander_submit {
+	display: block!important;
+	margin: 10px auto!important;
+}
+#user_login input, #user_registration input {
+	margin: 10px 15px;
+}
+.error {
+	display: block!important;
+	text-align: center;
+	font-weight: bold;
+	color: red;
+}
+#lander_container {
+	margin-top: 10%;
+	background-color: rgba(215, 215, 215, 1);
+	outline: 3px solid rgba(200, 200, 200, 1);
+	box-shadow: 8px 8px 13px grey;
+}
+#user_monitor {
+
+}

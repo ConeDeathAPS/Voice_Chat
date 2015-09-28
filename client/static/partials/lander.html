@@ -1,0 +1,59 @@
+<script type="text/javascript">
+//jquery for opening fade sequence
+$(document).ready(function() {
+	$(".logo").fadeIn('slow').delay(1000);
+	$(".logo").fadeOut('slow', function () {
+		$(".lander").fadeIn('slow');
+	});
+})
+</script>
+<div class="row logo" hidden>
+	<h1><big>Welcome to SpeakEasy...</big></h1>
+</div>
+<div class="row lander" hidden>
+	<div class="col-sm-4 col-md-4 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+		<div id="lander_container">
+		<!--==============================LOGIN FORM==============================-->
+		<!--spans are checking that the user has touched the inputs and then making sure that they have acceptable values. The error messages are nested within the error checking.-->
+			<form id="user_login" name="user_login" novalidate>
+				<h1>Please log in...</h1>
+				<input type="email" ng-model="uControl.login.email" name="email" placeholder="Email Address..." required>
+				<input type="password" ng-model="uControl.login.password" placeholder="Password..." required>
+				<input type="submit" ng-click="uControl.loginUser()" value="Log In" class="btn btn-primary lander_submit">
+				<span class="error" ng-show="user_login.email.$dirty && user_login.email.$invalid">
+					<span class="error" ng-show="user_login.email.$error.required">Please enter an email address.</span>
+					<span class="error" ng-show="user_login.email.$error.email">Please enter a valid email address.</span>
+				</span>
+			</form>
+			<button ng-click="uControl.gotoChatter()">Straight to chatter</button>
+		<!--==============================REGISTRATION FORM==============================-->
+		<!--Further validation will be added at a later date-->
+			<form id="user_registration" name="registration_form" novalidate>
+				<h1>Or register...</h1>
+				<input minlength="2" type="text" name="first_name" ng-model="uControl.newUser.fn" placeholder="First Name..." required>
+				<input minlength="2" type="text" name="last_name" ng-model="uControl.newUser.ln" placeholder="Last Name..." required>
+				<input minlength="4" type="email" name="email" ng-model="uControl.newUser.email" placeholder="Email Address..." required>
+				<input type="text" ng-model="uControl.newUser.username" name="username" placeholder="Username..." required>
+				<input type="password" minlength="8" ng-model="uControl.newUser.pw1" placeholder="Password..." required>
+				<input type="password" minlength="8" ng-model="uControl.newUser.pw2" placeholder="Confirm Password..." required>
+				<input type="date" name="dob" ng-model="uControl.newUser.dob" required>
+				<input type="password" minlength="29" maxlength="30" ng-model="uControl.newUser.adminKey" placeholder="Admin Key...">
+				<input type="submit" ng-click="uControl.registerUser()" value="Register" class="btn btn-success lander_submit">
+				<!--============================FORM VALIDATION==========================-->
+				<span class="error" ng-show="registration_form.first_name.$dirty && registration_form.first_name.$invalid">
+					<span class="error" ng-show="registration_form.first_name.$error.required">First name is required.</span>
+				</span>
+				<span class="error" ng-show="registration_form.last_name.$dirty && registration_form.last_name.$invalid">
+					<span class="error" ng-show="registration_form.last_name.$error.required">Last name is required.</span>
+				</span>
+				<span class="error" ng-show="registration_form.username.$dirty && registration_form.username.$invalid">
+					<span class="error" ng-show="registration_form.username.$error.required">Username is required.</span>
+				</span>
+				<span class="error" ng-show="registration_form.email.$dirty && registration_form.email.$invalid">
+					<span class="error" ng-show="registration_form.email.$error.required">Email is required.</span>
+					<span class="error" ng-show="registration_form.email.$error.email">Please enter a valid email address.</span>
+				</span>
+			</form>
+		</div>
+	</div>
+</div>
