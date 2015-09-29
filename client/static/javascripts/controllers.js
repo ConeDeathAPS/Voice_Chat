@@ -37,8 +37,12 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 		userFactory.getLoginInfo(that.login, function (errs, usr) {
 			if (errs[0] === undefined) {
 				that.login = {};
-
 				that.user = usr;
+				console.log(that.user.username);
+				userFactory.updateStatus("Online", that.user.username, function (data) {
+					that.users = data;
+					console.log(that.users);
+				});
 				socketFactory.getCurrentUser(that.user.username);
 				$location.path('/chat');				
 				// console.log(that.user);
@@ -119,12 +123,17 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 	//function for logout.
 	that.logout = function () {
 		// console.log('got here');
+		console.log("Logging out");
+		userFactory.updateStatus("Offline", that.user.username, function (data) {
+			that.users = data;
+			console.log(that.users);
+		});
 		that.user = {};
 		$location.path("/");
 	}
 })
 
-speakeasy.controller('socketsController', function ($scope, socketFactory) {
+speakeasy.controller('socketsController', function ($scope, socketFactory, userFactory) {
 	var that = this;
 	that.username = "";
 	var socket = io.connect();
@@ -136,8 +145,8 @@ speakeasy.controller('socketsController', function ($scope, socketFactory) {
 	})
 
 	that.logout = function () {
-		console.log('sending user logoff message');
-		socket.emit('disconnect', {user: that.username});
+		console.log('sending user logoff message for ' + that.username);
+		socket.emit('disconnected', {user: that.username});
 	}
 
 	that.firstEmit = (function () {
@@ -146,15 +155,23 @@ speakeasy.controller('socketsController', function ($scope, socketFactory) {
 	})();
 
 	that.sendMessage = function () {
-		socket.emit('new_message_bcast', {message:that.chat.message, username: that.username});
+		console.log("New message received. Contents ->");
+		// console.log(that.chat.message);
+		socket.emit('new_message_bcast', {message: that.chat.message, username: that.username});
+		that.chat.message = "";
 	}
 
 	socket.on("incoming_message", function (data) {
 		socketFactory.receiveMessage(data);
-		console.log(data);
+		// console.log(data);
+	})
+
+	socket.on("welcome_message", function (data) {
+		socketFactory.welcomeMessage(data);
 	})
 
 	socket.on("new_connection", function (username) {
+		console.log("New user detected: " + username);
 		socketFactory.newUser(username);
 	})
 

@@ -88,6 +88,7 @@ input[type=date] {
 		height: 89%;
 		border: 3px solid rgba(200, 200, 200, 1);
 		background-color: rgba(220, 220, 220, 1);
+		overflow: scroll;
 	}
 	#chat_box {
 		width: 90%;
@@ -99,4 +100,14 @@ input[type=date] {
 	}
 	.bold {
 		font-weight: bold;
+	}
+	.timestamp {
+		text-align: center;
+		font-style: italic;
+	}
+	.chat_message {
+		margin: 0px 3px;
+	}
+	.chat_area div:nth-child(even) {
+		background-color: lightgrey;
 	}

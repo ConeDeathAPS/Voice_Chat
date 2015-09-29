@@ -7,8 +7,9 @@ speakeasy.factory('userFactory', function($http, md5) {
 	factory.getUsers = function (grabUsers) {
 		$http.get('/users')
 		.then(function (response) {
-			console.log("Function getUsers response: " + response);
+			// console.log("Function getUsers response: " + response);
 			users = response.data;
+			console.log("All users:");
 			console.log(users);
 			grabUsers(users);
 		}, function (response) {
@@ -23,7 +24,30 @@ speakeasy.factory('userFactory', function($http, md5) {
 		console.log(user);
 	}
 	//===============================END INITIALIZATIOM===========================//
-	
+	//when the user logs in or out, update the status of the user, update the user in the users array, return this to update in controller
+	factory.updateStatus = function (status, username, callback) {
+		$http.post('/users/status/', {username: username, status: status})
+		.then(function (response) {
+			console.log("post response ->");
+			console.log(response);
+			console.log("Status updated to " + status + " for " + response.data.user.username);
+			for (each in users) {
+				console.log("Looking for "+username+" in users");
+				if (users[each].username === response.data.user.username) {
+					console.log("Found " + users[each].username + ", replacing...");
+					users[each] = response.data.user;
+					// console.log("Updated users ->");
+					// console.log(users);
+					callback(users);
+				}
+			}
+			return true;
+		}, function (response) {
+			console.log("Error updating status.");
+			return false;
+		})
+	}
+
 	factory.getLoginInfo = function (login_info, callback) {
 		//clear the errors array
 		errors = [];
@@ -41,7 +65,6 @@ speakeasy.factory('userFactory', function($http, md5) {
 				errors.push("I couldn't find that email in the database, try again!");
 				callback(errors, {});
 			}
-
 		})
 	}
 
@@ -123,6 +146,20 @@ speakeasy.factory('socketFactory', function() {
 	var factory = {};	
 	var username = "";
 
+	var getDateTime = function () {
+		var raw_date = new Date();
+		var mins = raw_date.getMinutes();
+		if (mins < 10) {
+			mins = "0" + mins;
+		}
+		var hours = raw_date.getHours();
+		var date = raw_date.getDate();
+		var month = raw_date.getMonth();
+		var full_date = month + "/" + date + " at " + hours + ":" + mins;
+		console.log(full_date);
+		return full_date;
+	}
+
 	//==============================USER MANAGEMENT===========================//
 	factory.getCurrentUser = function(user) {
 		username = user;
@@ -134,19 +171,44 @@ speakeasy.factory('socketFactory', function() {
 	}
 	//==============================MESSAGE HANDLING==========================//
 
-	factory.receiveMessage = function (message) {
-		var timestamp = new Date();
-		$('#chat_area').append("<span class='bold'>"+username+"</span>: " + message + "<span class='timestamp'>"+timestamp+"</span>");
+	factory.welcomeMessage = function (data) {
+		$('#chat_area').append("<div class='message_holder'><p class='chat_message'>"+data.message+"</p></div>");
 	}
 
-	factory.newUser = function (name) {
-		var timestamp = new Date();
-		$("#chat_area").append("<span class='bold'>" + username + "</span> Logged in! <span class='timestamp'>"+timestamp+"</span>");	
+	factory.receiveMessage = function (data) {
+		var timestamp = getDateTime();
+		// console.log(data);
+		if (data.author === username) {
+			data.author = "You";
+		}
+		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.author+"</span>: " + data.message + "</p><p class='timestamp'>" +timestamp+"</p></div>");
 	}
 
-	factory.userLogoff = function (username) {
-		var timestamp = new Date();
-		$('#chat_area').append("<span class='bold'>"+username+"</span> left the chat.");
+	factory.newUser = function (data) {
+		var timestamp = getDateTime();
+		console.log(name);
+		$("#chat_area").append("<div class='message_holder'><p class='chat_message'><span class='bold'>" + data.name + "</span> logged in! </p><p class='timestamp'>-->" +timestamp+"<--</p></div>");	
+		$("." + username.username).toggleClass(function() {
+			console.log("Checking class");
+			if ($(this).attr("class", "Offline")) {
+				console.log("changing class");
+				return "Online";
+			}
+		});		
+	}
+
+	factory.userLogoff = function (data) {
+		var timestamp = getDateTime();
+		console.log(data);
+		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.name+"</span> left the chat.</p><p class='timestamp'>" +timestamp+"</p></div>");
+		//check the class of that user's tag in the user list and swap it to offline
+		$("." + data.username).toggleClass(function() {
+			console.log("Checking class");
+			if ($(this).attr("class", "Online")) {
+				console.log("changing class");
+				return "Offline";
+			}
+		});
 	} 
 
 	return factory;

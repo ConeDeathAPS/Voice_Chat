@@ -9,6 +9,10 @@ module.exports = function (app) {
 		users.create(req, res);
 	})
 
+	app.post('/users/status', function (req, res) {
+		users.updateStatus(req, res);
+	})
+
 	app.put('/users', function (req, res) {
 		users.findOne(req, res);
 	})

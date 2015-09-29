@@ -46,13 +46,31 @@ module.exports = (function () {
 					console.log("Error getting user from database");
 					res.json({});
 				} else if (user) {
-					console.log(user);
+					// console.log(user);
 					res.json(user);				
 				} else {
 					console.log("Could not find user.");
 					res.json({});
 				}
 
+			})
+		},
+
+		updateStatus: function (req, res) {
+			console.log("Got to updateStatus function");
+			console.log(req.body);
+			//update the status in the db
+			var update = {status: req.body.status},
+				options = {new: true};
+			Users.findOneAndUpdate({username: req.body.username}, update, options, function (err, user) {
+				if (err) {
+					console.log("Error updating the user status.");
+					res.json({});
+				} else {
+					console.log(user);
+					console.log("Updated status for "+user.username+" to " + req.body.status);
+					res.json({user});
+				}
 			})
 		},
 

@@ -4,7 +4,6 @@
 			<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 				<h1 class="logo-small"><big>NameThing</big></h1>
 				<h3>Welcome {{uControl.user.username}}</h3>
-				
 				<button id="logout" ng-click="uControl.logout(); sControl.logout()" class="btn btn-danger">Logout</button>
 			</div>
 		</div>
@@ -12,10 +11,7 @@
 			<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
 				<h3>All users</h3>
 				<ul id="user_list">
-					<li class="user_name Offline">Loading Dock</li>
-					<li class="user_name Online">Heat_Death51</li>
-					<li class="user_name Away">ConeDeathAPS</li>
-					<li class="user_name Offline"></li>
+					<li ng-repeat="user in uControl.users" class="user_name {{user.status}}" id="{{user.username}}" ng-bind="user.username"></li>
 				</ul>
 			</div>
 			

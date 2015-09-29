@@ -28,16 +28,22 @@ var users = [];
 io.sockets.on('connection', function (socket) {
 	console.log("New connection ID " + socket.id);
 	socket.on("new_user_logged_in", function (username) {
-		socket.broadcast.emit('new_connection', {username: username});	
-		users.push({socket_id: socket_id, username: username});	
+		socket.broadcast.emit('new_connection', {name: username.username});	
+		socket.emit('welcome_message', {message: "Welcome! " + users.length + " people are online!"});
+		users.push({socket_id: socket.id, username: username.username});	
 		console.log("New user bcast sent");
+		console.log("Users array->");
+		console.log(users);
+
 	});
-	socket.on('disconnect', function (d) {
+	socket.on('disconnected', function () {
 		var logged_username;
 		console.log("user logoff detected");
 		//remove the disconnected user from the users array
 		for (i = 0; i < users.length; i++) {
+			console.log("Looking in users array for leaving user at socket " + socket.id);
 			if (users[i].socket_id == socket.id) {
+				console.log("Found user " + users[i].username + " at index " + i + ". Removing.");
 				logged_username = users[i].username;
 				users.splice(i, 1);
 			}
@@ -45,10 +51,12 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('user_left', {name: logged_username});
 		console.log("User logoff message sent for " + logged_username);
 
-	})
+	});
 	socket.on("new_message_bcast", function (message) {
-		socket.broadcast.emit("incoming_message", {data: data});
-	})
+		console.log("Incoming standard message detected");
+		io.emit("incoming_message", {message: message.message, author: message.username});
+		console.log("Finished message bcast.");
+	});
 	
 
 })
