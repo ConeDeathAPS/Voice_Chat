@@ -11,24 +11,24 @@
 			<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
 				<h3>All users</h3>
 				<ul id="user_list">
-					<li ng-repeat="user in uControl.users" class="user_name {{user.status}}" id="{{user.username}}" ng-bind="user.username"></li>
+					<li ng-repeat="user in uControl.users" class="user_list_item {{user.status}}" id="{{user.username}}" ng-bind="user.username"></li>
 				</ul>
 			</div>
 			
-				<div id="chat_container">
-					<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
-					
-					</div>	
-					<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
-						<div id="chat_area">
-							
-						</div>
-						<form id="chat_form" name="chat_form">
-							<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">
-							<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
-						</form>					
+			<div id="chat_container">
+				<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
+				
+				</div>	
+				<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
+					<div id="chat_area">
+						
 					</div>
+					<form id="chat_form" name="chat_form">
+						<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">
+						<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
+					</form>					
 				</div>
+			</div>
 		</div>
 	</div>
 </div>
