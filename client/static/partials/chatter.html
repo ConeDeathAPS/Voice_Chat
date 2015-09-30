@@ -22,14 +22,13 @@
 			</div>
 			<div id="chat_container">
 				<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
-					<div class="user_audio_box" ng-repeat="user in uControl.users">
-						<p class="user_label"><b>{{user.username}}</b></p>
-						<audio class="{{user.username}}" id="audio" ng-if="user.status === 'Online'" controls autoplay></audio>
-					</div>
+		
 				</div>	
+					<button id="join" class="btn btn-success" ng-click="">Join</button>
+					<button id="end" class="btn btn-danger">Leave</button>
 				<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
 					<div id="chat_area">
-						
+					<!--chat messages will append here-->
 					</div>
 					<form id="chat_form" name="chat_form">
 						<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">

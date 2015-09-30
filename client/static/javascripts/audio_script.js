@@ -1,3 +1,16 @@
+//cross-browser compatibility assurance
+var peerConnection = window.RTCPeerConnection || 
+	window.mozRTCPeerConnection || 
+	window.webkitRTCPeerConnection || 
+	window.msRTCPeerConnection;
+
+var sessionDescription = window.RTCSessionDescription || 
+	window.mozRTCSessionDescription ||
+	window.webkitRTCSessionDescription || 
+	window.msRTCSessionDescription;
+
+
+//variable initialization
 var audioContext = null;
 var audio = null;
 var meter = null;
@@ -6,9 +19,17 @@ var width = 50;
 var height = 500;
 var rafID = null;
 var localStream;
+var join_button = document.getElementById("join");
+var connection;
+var sdpConstraints = {
+	mandatory: {
+		OfferAudio: true,
+		OfferVideo: false
+	}
+};
 
 //function to initiate an audio stream on window load
-(function () {
+var join = function () {
 	canvasContext = document.getElementById("audio_level");
 
 	window.audioContext = window.AudioContext || window.webkitAudioContext;
@@ -26,10 +47,12 @@ var localStream;
 		navigator.getUserMedia({
 			audio: true 
 		}, gotStream, didntGetStream);
+		console.log("stream initialized");
 	} catch (e) {
-		console.log("getUserMedia threw exception: ", e);
+		console.log("getUserMedia threw an exception super hard: ", e);
 	}
-})();
+}
+
 //error function
 function didntGetStream() {
 	console.log("Stream generation failed");
@@ -51,6 +74,7 @@ function gotStream(stream) {
 
 	// drawLoop();
 }
+
 //this functino will stop the audio from playing
 var stopAudio = function() {
 	console.log("Stopping audio.");
