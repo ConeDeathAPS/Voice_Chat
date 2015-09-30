@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 
 var fs = require('fs');
 
-mongoose.connect('mongodb://localhost/speakeasy');
+var keys = require(__dirname+"/keys.js");
+
+mongoose.connect(keys.remote_db);
 
 var models_path = (__dirname + "./../models");
 
