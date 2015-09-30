@@ -21,15 +21,9 @@ var rafID = null;
 var localStream;
 var join_button = document.getElementById("join");
 var connection;
-var sdpConstraints = {
-	mandatory: {
-		OfferAudio: true,
-		OfferVideo: false
-	}
-};
 
 //function to initiate an audio stream on window load
-var join = function () {
+var join = (function () {
 	canvasContext = document.getElementById("audio_level");
 
 	window.audioContext = window.AudioContext || window.webkitAudioContext;
@@ -51,7 +45,7 @@ var join = function () {
 	} catch (e) {
 		console.log("getUserMedia threw an exception super hard: ", e);
 	}
-}
+})();
 
 //error function
 function didntGetStream() {
