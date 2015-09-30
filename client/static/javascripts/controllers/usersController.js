@@ -129,9 +129,11 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 		console.log("Logging out");
 		userFactory.updateStatus("Offline", that.user.username, function (data) {
 			that.users = data;
-			console.log("Updated in controller");
-			console.log(that.users);
+			// console.log("Updated in controller");
+			// console.log(that.users);
 		});
+		//call stop audio function in audio_script
+		stopAudio();
 		that.user = {};
 		$location.path("/");
 	}

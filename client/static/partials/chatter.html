@@ -1,3 +1,9 @@
+<script type="text/javascript" src="/static/javascripts/audio_script.js"></script>
+<script type="text/javascript">
+	// $(document).on("click", "#logout", function() {
+	// 	stopAudio();
+	// });
+</script>
 <div ng-controller="socketsController as sControl">
 	<div ng-controller='adminsController as aControl'>
 		<div class="row">
@@ -14,10 +20,12 @@
 					<li ng-repeat="user in uControl.users" class="user_list_item {{user.status}}" id="{{user.username}}" ng-bind="user.username"></li>
 				</ul>
 			</div>
-			
 			<div id="chat_container">
 				<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
-				
+					<div class="user_audio_box" ng-repeat="user in uControl.users">
+						<p class="user_label"><b>{{user.username}}</b></p>
+						<audio class="{{user.username}}" id="audio" ng-if="user.status === 'Online'" controls autoplay></audio>
+					</div>
 				</div>	
 				<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
 					<div id="chat_area">
@@ -27,6 +35,9 @@
 						<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">
 						<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
 					</form>					
+				</div>
+				<div class="col-sm-1 col-md-1 col-lg-1 col-sm-offset-9 col-md-offset-9 col-lg-offset-9 volume">
+					<canvas id="audio_level" style="height:500px;width:50px;"></canvas>
 				</div>
 			</div>
 		</div>

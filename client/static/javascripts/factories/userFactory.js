@@ -8,9 +8,14 @@ speakeasy.factory('userFactory', function($http, md5) {
 		$http.get('/users')
 		.then(function (response) {
 			// console.log("Function getUsers response: " + response);
+			//obfuscate the password hashes and salt
+			for (each in users) {
+				users[each].password = "OBFUSCATED";
+				users[each].salt = "OBFUSCATED";
+			}
 			users = response.data;
-			console.log("All users:");
-			console.log(users);
+			// console.log("All users:");
+			// console.log(users);
 			grabUsers(users);
 		}, function (response) {
 			console.log("Function getUsers http get failed.");
@@ -31,7 +36,7 @@ speakeasy.factory('userFactory', function($http, md5) {
 	factory.updateStatus = function (status, username, callback) {
 		$http.post('/users/status/', {username: username, status: status})
 		.then(function(response) {
-			console.log("finished updating status, getting users.");
+			// console.log("finished updating status, getting users.");
 			getUsers(callback);
 		}, function (response) {
 			console.log("Error updating status.");

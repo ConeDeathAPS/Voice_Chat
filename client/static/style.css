@@ -83,6 +83,13 @@ input[type=date] {
 	padding: 5px!important;
 	margin: 15px;
 }
+/*CANVAS CSS*/
+	.volume {
+		display: inline-block!important;
+		outline: 1px solid black;
+		margin: 15px!important;
+		top: 10%;
+	}
 /*CHAT CSS*/
 	#chat_area {
 		height: 89%;
@@ -110,4 +117,13 @@ input[type=date] {
 	}
 	.chat_area div:nth-child(even) {
 		background-color: lightgrey;
+	}
+/*VOICE CHAT BOX CSS */
+	.user_audio_box {
+		height: 75px;
+	}
+	.user_label {
+		vertical-align: middle;
+		display: inline-block;
+		margin-bottom: 21px;
 	}
