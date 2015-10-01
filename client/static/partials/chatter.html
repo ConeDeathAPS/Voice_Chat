@@ -1,9 +1,4 @@
 <script type="text/javascript" src="/static/javascripts/audio_script.js"></script>
-<script type="text/javascript">
-	// $(document).on("click", "#logout", function() {
-	// 	stopAudio();
-	// });
-</script>
 <div ng-controller="socketsController as sControl">
 	<div ng-controller='adminsController as aControl'>
 		<div class="row">
@@ -22,10 +17,10 @@
 			</div>
 			<div id="chat_container">
 				<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
-		
+					<audio id="audio_player" autoplay controls></audio>
 				</div>	
-					<button id="join" class="btn btn-success" ng-click="">Join</button>
-					<button id="end" class="btn btn-danger">Leave</button>
+<!-- 					<button id="join" class="btn btn-success" ng-click="sControl.joinRoom()">Join</button>
+					<button id="end" class="btn btn-danger">Leave</button> -->
 				<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
 					<div id="chat_area">
 					<!--chat messages will append here-->

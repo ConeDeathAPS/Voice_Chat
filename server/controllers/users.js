@@ -16,8 +16,8 @@ module.exports = (function () {
 
 		create: function (req, res) {
 			//check for the admin key, if it is set to the correct string then make them an admin
-			console.log(req.body.adminKey);
-			console.log("VRferrichastygar-frillynuance");
+			// console.log(req.body.adminKey);
+			// console.log("VRferrichastygar-frillynuance");
 			var privileges = false;
 			if (req.body.adminKey) {
 				if (req.body.adminKey === "VRferrichastygar-frillynuance")
@@ -58,7 +58,7 @@ module.exports = (function () {
 
 		updateStatus: function (req, res) {
 			console.log("Got to updateStatus function");
-			console.log(req.body);
+			// console.log(req.body);
 			//update the status in the db
 			var update = {status: req.body.status},
 				options = {new: true};
@@ -67,7 +67,7 @@ module.exports = (function () {
 					console.log("Error updating the user status.");
 					res.json({});
 				} else {
-					console.log(user);
+					// console.log(user);
 					console.log("Updated status for "+user.username+" to " + req.body.status);
 					res.json({user});
 				}
