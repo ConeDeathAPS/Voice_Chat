@@ -3,7 +3,7 @@
 	<div ng-controller='adminsController as aControl'>
 		<div class="row">
 			<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-				<h1 class="logo-small"><big>NameThing</big></h1>
+				<h1 class="logo-small"><big>This thing</big></h1>
 				<h3>Welcome {{uControl.user.username}}</h3>
 				<button id="logout" ng-click="uControl.logout(); sControl.logout()" class="btn btn-danger">Logout</button>
 			</div>
@@ -30,9 +30,9 @@
 						<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
 					</form>					
 				</div>
-				<div class="col-sm-1 col-md-1 col-lg-1 col-sm-offset-9 col-md-offset-9 col-lg-offset-9 volume">
-					<canvas id="audio_level" style="height:500px;width:50px;"></canvas>
-				</div>
+				<!-- <div class="col-sm-1 col-md-1 col-lg-1 col-sm-offset-9 col-md-offset-9 col-lg-offset-9 volume"> -->
+					<!-- <canvas id="audio_level" style="height:500px;width:50px;"></canvas> -->
+				<!-- </div> -->
 			</div>
 		</div>
 	</div>

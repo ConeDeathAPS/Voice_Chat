@@ -37,7 +37,7 @@ speakeasy.factory('socketFactory', function() {
 		if (data.author === username) {
 			data.author = "You";
 		}
-		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.author+"</span>: " + data.message + "</p><p class='timestamp'>" +timestamp+"</p></div>");
+		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.author+"</span>: " + data.message + "</p><p class='timestamp'>-->" +timestamp+"<--</p></div>");
 	}
 
 	factory.newUser = function (data) {
@@ -45,9 +45,9 @@ speakeasy.factory('socketFactory', function() {
 		// console.log(data);
 		$("#chat_area").append("<div class='message_holder'><p class='chat_message'><span class='bold'>" + data.name + "</span> logged in! </p><p class='timestamp'>-->" +timestamp+"<--</p></div>");	
 		$("#" + data.name).toggleClass(function() {
-			console.log("Checking class");
+			// console.log("Checking class");
 			if ($(this).attr("class", data.name)) {
-				console.log("changing class");
+				// console.log("Changing class");
 				return "Online";
 			}
 		});
@@ -55,12 +55,12 @@ speakeasy.factory('socketFactory', function() {
 
 	factory.userLogoff = function (data) {
 		var timestamp = getDateTime();
-		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.name+"</span> left the chat.</p><p class='timestamp'>" +timestamp+"</p></div>");
+		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.name+"</span> left the chat.</p><p class='timestamp'>-->" +timestamp+"<--</p></div>");
 		//check the class of that user's tag in the user list and swap it to offline
 		$("#" + data.name).toggleClass(function() {
-			console.log("Checking class");
+			// console.log("Checking class");
 			if ($(this).attr("class", data.name)) {
-				console.log("changing class");
+				// console.log("changing class");
 				return "Offline";
 			}
 		});		

@@ -13,17 +13,13 @@ var sessionDescription = window.RTCSessionDescription ||
 //variable initialization
 var audioContext = null;
 var audio = null;
-var meter = null;
-var canvas = null;
-var width = 50;
-var height = 500;
-var rafID = null;
 var localStream;
 var join_button = document.getElementById("join");
 var localStream;
+var remoteStream;
 
 //function to initiate an audio stream on window load
-var join = (function () {
+var joinChat = (function () {
 	canvas = document.getElementById("audio_level");
 
 	window.audioContext = window.AudioContext || window.webkitAudioContext;
@@ -31,7 +27,7 @@ var join = (function () {
 	audioContext = new AudioContext();
 
 	try {
-		console.log("initializing getUserMedia");
+		console.log("Initializing getUserMedia().");
 		//checking for browser compatibility
 		navigator.getUserMedia = 
 			navigator.getUserMedia ||
@@ -41,15 +37,15 @@ var join = (function () {
 		navigator.getUserMedia({
 			audio: true 
 		}, gotStream, didntGetStream);
-		console.log("stream initialized");
+		console.log("Stream initialized");
 	} catch (e) {
-		console.log("getUserMedia threw an exception super hard: ", e);
+		console.log("getUserMedia() threw an exception super hard: ", e);
 	}
 })();
 
 //error function
 function didntGetStream() {
-	console.log("Stream generation failed");
+	console.log("Stream generation failed!");
 }
 
 var mediaStreamSource = null;
@@ -57,12 +53,13 @@ var mediaStreamSource = null;
 function gotStream(stream) {
 	console.log("Got stream!");
 	localStream = stream;
+
 	//creating a new media stream source from the audio context(with the stream as a parameter)
-	mediaStreamSource = audioContext.createMediaStreamSource(stream);
-	// meter = createAudioMeter(audioContext);
-	// mediaStreamSource.connect(meter);
-	//this connects the source for a media stream to the local audio context stream, playing the audio through the speakers
-	mediaStreamSource.connect(audioContext.destination);
+	mediaStreamSource1 = audioContext.createMediaStreamSource(stream);
+
+	//this connects the source for the media stream to the local audio context stream, playing the audio through the speakers
+	mediaStreamSource1.connect(audioContext.destination);
+
 	// drawLoop();
 }
 
@@ -71,70 +68,3 @@ var stopAudio = function() {
 	console.log("Stopping audio.");
 	audioContext.close();
 }
-
-
-//function to draw the volume meter
-// function drawLoop(time) {
-// 	console.log(canvas);
-// 	canvas.clearRect(0, 0, width, height);
-
-// 	if (meter.checkClipping()) {
-// 		canvas.fillStyle = "red";
-// 	} else {
-// 		canvas.fillStyle = "green";
-// 	}
-
-// 	canvas.fillRect(0, 0, width, meter.volume*height*1.4);
-
-// 	rafID = window.requestAnimationFrame(drawLoop);
-// }
-
-// function createAudioMeter(audioContext, clipLevel, averaging, clipLag) {
-// 	var processor = audioContext.createScriptProcessor(512);
-// 	processor.onaudioprocess = volumeAudioProcess;
-// 	processor.clipping = false;
-// 	processor.lastClip = 0;
-// 	processor.volume = 0;
-// 	processor.clipLevel = 0.98;
-// 	processor.averaging = 0.95;
-// 	processor.clipLag = 750;
-
-// 	processor.connect(audioContext.destination);
-
-// 	processor.checkClipping = function () {
-// 		if (!this.clipping) {
-// 			return false;
-// 		}
-// 		if ((this.lastClip + this.clipLag) < window.performance.now()) {
-// 			this.clipping = false;
-// 		}
-// 		return this.clipping;
-// 	}
-
-// 	processor.shutdown = function () {
-// 		this.disconnect();
-// 		this.onaudioprocess = null;
-// 	}
-
-// 	return processor;
-// }
-
-// function volumeAudioProcess (event) {
-// 	var buf = event.inputBuffer.getChannelData(0);
-// 	var bufLength = buf.length;
-// 	var sum = 0;
-// 	var x;
-
-// 	for (var i = 0; i < buf.length; i++) {
-// 		x = buf[i];
-// 		if (Math.abs(x) >= this.clipLevel) {
-// 			this.clipping = true;
-// 			this.lastClip = window.performance.now();
-// 		}
-// 		sum += x*x;
-// 	}
-
-// 	var rms = Math.sqrt(sum / bufLength);
-
-// 	this.volume = Math.max(rms, this.volume*this.averaging);
-// }

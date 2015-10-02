@@ -4,6 +4,7 @@ speakeasy.controller('socketsController', function ($scope, socketFactory, userF
 	that.users_online;
 	var userID;
 	var audio = document.getElementById("audio_player");
+
 	// that.joinRoom = function () {
 	// 	console.log("Joining room...");
 	// 	userID = 'answerer'
@@ -24,16 +25,16 @@ socket.on('sdpAnswer', processAnswerIfOfferer);
 
 //socket is now opened, need to transmit request
 function onconnect () {
-	console.log("Looking for other users");
+	console.log("Looking for other users...");
 	transmitRequest();
 }
-//set some variables
+//we have not yet found a participant
 var foundParticipant = false;
-// send actual request
+// send handshake request once per second until we get a response that we have found a participant
 function transmitRequest() {
 	userID="offerer";
 	if (!foundParticipant) {
-		console.log("Sending handshake request...");
+		// console.log("Sending handshake request...");
 		socket.emit('handshake', {
 			userID: userID,
 			type: 'request_to_join'
@@ -41,12 +42,12 @@ function transmitRequest() {
 	}
 	setTimeout(transmitRequest, 1000);
 }
-//when we receive response
+//when we receive handshake response
 function oncallbackofferer(response) {
-	console.log("Received handshake confirmation");
-	console.log("Response: ", response);
+	console.log("Received handshake confirmation...");
+	// console.log("Response: ", response);
 	if (response.userID === userID) {
-		console.log("userIDs are the same");
+		console.log("userIDs are the same.");
 		return;
 	}
 	if (response.participant) {
@@ -61,12 +62,12 @@ function oncallbackofferer(response) {
 var peer;
 //create an offer with user info and stream
 function createOffer() {
-	console.log("Creating offer");
+	console.log("Creating SDP Offer...");
 	peer = RTCPeerConnection({
 		onOfferSDP: sendOfferSDP,
 		onICE: function(candidate) {
-			console.log("sending sdpOffer");
-			console.log(candidate);
+			// console.log("sending sdpOffer");
+			// console.log(candidate);
 			socket.emit('ICE_offer', {
 				userID: userID,
 				candidate: {
@@ -77,16 +78,17 @@ function createOffer() {
 		},
 		onRemoteStream: function (stream) {
 			if (stream) {
-				console.log('found another stream!');
+				remoteStream = stream;
+				console.log("Adding remote stream...");
 				audio.src = webkitURL.createObjectURL(stream);
 			}
 		},
 		attachStream: localStream
 	});
 }
-//send offer SDP
+//emits SDP information
 function sendOfferSDP(sdp) {
-	console.log("Sending offer");
+	console.log("Sending offer...");
 	var sdp = JSON.stringify(sdp);
 
 	socket.emit('sdpOffer', {
@@ -98,7 +100,7 @@ function sendOfferSDP(sdp) {
 var answerSDP = {};
 //got answer SDP
 function processAnswerIfOfferer (response) {
-	console.log("Processing answer");
+	console.log("Processing answer...");
 	if (response.sdp) {
 		var JSON_sdp = JSON.parse(response.sdp);
 		peer.addAnswerSDP(JSON_sdp);
@@ -106,28 +108,29 @@ function processAnswerIfOfferer (response) {
 }
 
 	//===============================ANSWERER FUNCTIONS============================//
-
+//gets the SDP answer and sends it to the process function
 function getSDP (response) {
 	processAnswerIfAnswerer(response);
 }
 
 function oncallbackanswerer(response) {
 	userID = 'answerer';
-	console.log("got handshake request");
-	console.log("Response: ", response);
+	console.log("Got handshake request!");
+	// console.log("Response: ", response);
 	if (response.userID === userID) {
 		return;
 	}
 	if (response.type && response.type === 'request_to_join') {
-		console.log("sending handshake confirmation");
+		console.log("Sending handshake confirmation...");
 		socket.emit('got_handshake', {
 			participant: true,
 			userID: userID
 		});
 	}
 }
+//emits SDP information
 function sendAnswerSDP(sdp) {
-	console.log("Sending offer");
+	console.log("Sending answer...");
 	var sdp = JSON.stringify(sdp);
 
 	socket.emit('sdpAnswer', {
@@ -138,12 +141,12 @@ function sendAnswerSDP(sdp) {
 var peer;
 //create an offer with user info and stream
 function createAnswer(offer_sdp) {
-	console.log('creating answer');
+	console.log('Creating answer...');
 	peer = RTCPeerConnection({
 		offerSDP: offer_sdp,
 		onAnswerSDP: sendAnswerSDP,
 		onICE: function(candidate) {
-			console.log("sending answer");
+			// console.log("Sending answer");
 			socket.emit('ICE_answer', {
 				userID: userID,
 				candidate: {
@@ -154,6 +157,8 @@ function createAnswer(offer_sdp) {
 		},
 		onRemoteStream: function (stream) {
 			if (stream) {
+				remoteStream = stream;
+				console.log("Adding remote stream...");
 				audio.src = webkitURL.createObjectURL(stream);
 			}
 		},
@@ -162,8 +167,8 @@ function createAnswer(offer_sdp) {
 }
 //parse the answer that was received
 function processAnswerIfAnswerer (response) {
-	console.log("received sdp offer");
-	console.log("SDPoffer: ", response);
+	console.log("Received sdp offer.");
+	// console.log("SDPoffer: ", response);
 	if (response.sdp) {
 		var answerSDP = JSON.parse(response.sdp);
 		createAnswer(answerSDP);
@@ -172,7 +177,6 @@ function processAnswerIfAnswerer (response) {
 
 
 //=================================END RTCPC FUNCTIONS===============================//
-
 
 //The way this controller works is that all socket listeners and emitters will be HERE in the controller. All HTML modification and clientside updates are provided by the factory. Most of these socket listeners will simply call a factory function.
 	socketFactory.setCurrentUser(function (data) {

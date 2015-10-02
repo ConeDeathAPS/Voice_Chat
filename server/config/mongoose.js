@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var keys = require(__dirname+"/keys.js");
 
-mongoose.connect(keys.local_db);
+mongoose.connect(keys.remote_db);
 
 var models_path = (__dirname + "./../models");
 
