@@ -32,12 +32,14 @@ speakeasy.factory('socketFactory', function() {
 	}
 
 	factory.receiveMessage = function (data) {
+		var $chat = $("#chat_area");
 		var timestamp = getDateTime();
 		// console.log(data);
 		if (data.author === username) {
 			data.author = "You";
 		}
 		$('#chat_area').append("<div class='message_holder'><p class='chat_message'><span class='bold'>"+data.author+"</span>: " + data.message + "</p><p class='timestamp'>-->" +timestamp+"<--</p></div>");
+		$chat.animate({scrollTop: $chat[0].scrollHeight}, 'fast');
 	}
 
 	factory.newUser = function (data) {

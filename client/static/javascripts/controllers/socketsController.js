@@ -194,6 +194,11 @@ function processAnswerIfAnswerer (response) {
 	})();
 
 	that.sendMessage = function () {
+		if (!that.chat.message) {
+			return false;
+		} else if (that.chat.message === " " || that.chat.message === "") {
+			return false;
+		}
 		// console.log("New message received. Contents ->");
 		// console.log(that.chat.message);
 		socket.emit('new_message_bcast', {message: that.chat.message, username: that.username});
