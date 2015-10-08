@@ -9,7 +9,6 @@ var sessionDescription = window.RTCSessionDescription ||
 	window.webkitRTCSessionDescription || 
 	window.msRTCSessionDescription;
 
-
 //variable initialization
 var audioContext = null;
 var audio = null;

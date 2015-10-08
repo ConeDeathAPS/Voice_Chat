@@ -55,7 +55,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('sdpAnswer', function (data) {
 		console.log("SDP exchange step 2...");
 		socket.broadcast.emit('sdpResponse', data);
-	})	
+	});
 	// socket.on('ICE_answer', function (data) {
 	// 	console.log("exchanging ICE info part 2...");
 	// 	socket.broadcast.emit('ICE_answer_create', data);
