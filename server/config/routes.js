@@ -20,4 +20,7 @@ module.exports = function (app) {
 	app.delete('/users/:id', function (req, res) {
 		users.destroy(req, res);
 	})
+	app.get('favicon.ico', function (req, res) {
+		redirect('./static/assets/imgs/favicon.ico');
+	})
 }
