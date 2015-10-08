@@ -8,6 +8,9 @@ var speakeasy = angular.module('speakeasy', ['ngRoute', 'ngCookies', 'angular-md
 		.when('/chat', {
 			templateUrl: '/static/partials/chatter.html'
 		})
+		.when('/favicon.ico', {
+			templateUrl: '/static/assets/imgs/favicon.ico'
+		})
 	})
 
 
