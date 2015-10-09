@@ -45,6 +45,12 @@ input[type=date] {
 	font-weight: bold;
 	color: red;
 }
+.message {
+	display: block!important;
+	text-align: center;
+	font-weight: bold;
+	color: green;
+}
 #lander_container {
 	margin-top: 10%;
 	background-color: rgba(215, 215, 215, 1);
@@ -131,3 +137,11 @@ input[type=date] {
 		display: block!important;
 		margin: 15px auto;
 	}
+/*ADMIN CSS*/
+#accordion {
+	margin-top: 20px;
+}
+.logout {
+	margin: 15px!important;
+	float: right!important;
+}

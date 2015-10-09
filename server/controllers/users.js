@@ -58,9 +58,10 @@ module.exports = (function () {
 
 		updateStatus: function (req, res) {
 			console.log("Got to updateStatus function");
-			// console.log(req.body);
+			console.log(req.body);
 			//update the status in the db
-			var update = {status: req.body.status},
+			var date = new Date();
+			var update = {status: req.body.status, updated_at: date},
 				options = {new: true};
 			Users.findOneAndUpdate({username: req.body.username}, update, options, function (err, user) {
 				if (err) {
@@ -68,6 +69,7 @@ module.exports = (function () {
 					res.json({});
 				} else {
 					// console.log(user);
+					console.log(user);
 					console.log("Updated status for "+user.username+" to " + req.body.status);
 					res.json({user});
 				}
@@ -75,7 +77,25 @@ module.exports = (function () {
 		},
 
 		update: function (req, res) {
-			
+			console.log("Performing update", req.body);
+			var update = {
+				first_name: req.body.first_name, 
+				last_name: req.body.last_name,
+				email: req.body.email,
+				username: req.body.username,
+				dob: req.body.dob,
+				admin: req.body.admin
+						},
+				options = {upsert: true, new: true};
+			Users.findOneAndUpdate({id: req.body.id}, update, options, function (err, user) {
+				if (err) {
+					console.log("Error updating user information");
+					res.json({});
+				} else {
+					console.log("Successfully updates user information");
+					res.json({user});
+				}
+			})
 		},
 
 		destroy: function (req, res) {

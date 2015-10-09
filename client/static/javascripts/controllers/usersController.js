@@ -1,10 +1,9 @@
-speakeasy.controller('usersController', function ($scope, $location, $rootScope, $cookies, userFactory, md5, socketFactory) {
+speakeasy.controller('usersController', function ($scope, $location, $rootScope, $cookies, userFactory, md5, socketFactory, $compile) {
 	var that = this;
 	that.errors = [];
 	that.users = [];
 	that.errors = [];
-
-
+	that.messages = [];
 
 	//get the user's info from the factory. This is run every time the page loads.
 	that.getUserInfo = function () {
@@ -34,6 +33,7 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 			if (errs[0] === undefined) {
 				that.login = {};
 				that.user = usr;
+				$cookies.put('username', that.user.username);
 				// console.log(that.user.username);
 				userFactory.updateStatus("Online", that.user.username, function (data) {
 					if (data) {
@@ -41,8 +41,10 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 						userFactory.setUsers(function (data) {
 							that.users = data
 						});
+						console.log('information stored in cookie');
 						// console.log(that.users);	
-						//get all users for the user_monitor
+						//clear messages
+						that.messages = [];
 						$location.path('/chat');					
 						// console.log("Updated in controller ->");
 						// console.log(that.users);	
@@ -101,8 +103,8 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 		that.errors = userFactory.validateUserInput(that.newUser);
 		if (that.errors === undefined) {
 			that.newUser = {};
-			$location.path('/');
-			that.errors = ["Registration successful, please login."];
+			that.errors = [];
+			that.messages.push("Registration successful, please login.");
 		}
 	}
 
@@ -127,13 +129,37 @@ speakeasy.controller('usersController', function ($scope, $location, $rootScope,
 	that.logout = function () {
 		// console.log('got here');
 		console.log("Logging out");
-		userFactory.updateStatus("Offline", that.user.username, function (data) {
-			that.users = data;
-		});
+		//if the user reloaded then get their username from their cookie
+		if (that.user) {
+			userFactory.updateStatus("Offline", that.user.username, function (data) {
+				that.users = data;
+			});
+		} else {
+			userFactory.updateStatus("Offline", $cookies.get('username'), function (data) {
+				that.users = data;
+			});
+		}
+		
 		//call stop audio function in audio_script
 		stopAudio();
 		that.user = {};
 		$location.path("/");
 	}
+
+	that.gotoAdmin = function () {
+		if (that.user.admin) {
+			$location.path("/admins")
+		} else {
+			userFactory.alertNoAdminAccess;
+		}
+	}
+})
+
+speakeasy.controller('FormController', function ($scope) {
+	
+	$scope.makePristine = function () {
+			$scope.registration_form.$setPristine();
+	}
+
 })
 

@@ -4,6 +4,10 @@ speakeasy.factory('userFactory', function($http, md5) {
 	var user = {};
 	var factory = {};
 	//===============================BEGIN INITIALIZATIOM===========================//
+	factory.initGetUsers = function(callback) {
+		getUsers(callback);
+	}
+
 	var getUsers = function (grabUsers) {
 		$http.get('/users')
 		.then(function (response) {
@@ -34,6 +38,7 @@ speakeasy.factory('userFactory', function($http, md5) {
 	//===============================END INITIALIZATIOM===========================//
 	//when the user logs in or out, update the status of the user
 	factory.updateStatus = function (status, username, callback) {
+		console.log("username: ", username);
 		$http.post('/users/status/', {username: username, status: status})
 		.then(function(response) {
 			// console.log("finished updating status, getting users.");
@@ -47,6 +52,7 @@ speakeasy.factory('userFactory', function($http, md5) {
 	factory.getLoginInfo = function (login_info, callback) {
 		//clear the errors array
 		errors = [];
+		
 		// console.log("http.put activated");
 		$http.put('/users', login_info)
 		.then(function (response) {
@@ -134,6 +140,10 @@ speakeasy.factory('userFactory', function($http, md5) {
 		createUser(newUser);
 	}
 	//============================END USER REGISTRATION===========================//
+
+	factory.alertNoAdminAccess = function () {
+		alert("You do not have permission to go here");
+	}
 
 	return factory;
 });

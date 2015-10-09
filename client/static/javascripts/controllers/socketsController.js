@@ -224,4 +224,11 @@ function processAnswerIfAnswerer (response) {
 		console.log(data);
 		socketFactory.userLogoff(data);
 	})
+
+	socket.on('you_left', function (data) {
+		console.log("Updating status for abrupt logoff: ", data);
+		userFactory.updateStatus('Offline', data.name, function (data) {
+
+		});
+	})
 })

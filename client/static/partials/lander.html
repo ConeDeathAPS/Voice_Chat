@@ -1,5 +1,5 @@
 <script type="text/javascript">
-//jquery for opening fade sequence
+// jquery for opening fade sequence
 $(document).ready(function() {
 	$(".logo").fadeIn('slow').delay(1000);
 	$(".logo").fadeOut('slow', function () {
@@ -26,6 +26,8 @@ $(document).ready(function() {
 				</span>
 			</form>
 			<p class="error" ng-repeat="error in uControl.errors">{{error}}</p>
+			<p class="message" ng-repeat="message in uControl.messages">{{message}}</p>
+
 <!-- 			<button ng-click="uControl.gotoChatter()">Straight to chatter</button> -->
 		<!--==============================REGISTRATION FORM==============================-->
 		<!--Further validation will be added at a later date-->
@@ -39,7 +41,7 @@ $(document).ready(function() {
 				<input type="password" minlength="8" ng-model="uControl.newUser.pw2" placeholder="Confirm Password..." required>
 				<input type="date" name="dob" ng-model="uControl.newUser.dob" required>
 				<input type="password" minlength="29" maxlength="30" ng-model="uControl.newUser.adminKey" placeholder="Admin Key...">
-				<input type="submit" ng-click="uControl.registerUser()" value="Register" class="btn btn-success lander_submit">
+				<input type="submit" ng-click="uControl.registerUser(); registration_form.$setPristine()" value="Register" class="btn btn-success lander_submit">
 				<!--============================FORM VALIDATION==========================-->
 				<span class="error" ng-show="registration_form.first_name.$dirty && registration_form.first_name.$invalid">
 					<span class="error" ng-show="registration_form.first_name.$error.required">First name is required.</span>

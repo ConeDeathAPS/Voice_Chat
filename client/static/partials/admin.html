@@ -1,0 +1,42 @@
+<div ng-controller="adminsController as aControl">
+<script type="text/javascript">
+	$('.collapse').collapse();
+</script>
+	<div class="row">
+		<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+			<h1>User Control</h1>
+			<button ng-click="uControl.logout(); sControl.logout()" class="btn btn-danger logout">Logout</button>
+		</div>
+	<div class="row">
+		<div id="admin_users_container accordion" class="panel-group col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default" ng-repeat="user in uControl.users">
+				<div class="panel-heading" role="tab" id="{{user._id}}}">
+					<h4 class="panel-title">
+						<button role="button" data-toggle="collapse" class="btn btn-info" data-parent="#accordion" data-target="#collapse{{user._id}}" aria-expanded="false" aria-controls="collapseOne" ng-bind="user.first_name">
+						</button>
+					</h4>
+				</div>
+				<div id="collapse{{user._id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledBy="{{user._id}}">
+					<div class="panel-body">
+						<form>
+							<input class="input_{{user._id}}" disabled type="hidden" name="id" value="{{user._id}}">
+							<input class="input_{{user._id}}" disabled type="text" name="first_name" value="{{user.first_name}}">
+							<input class="input_{{user._id}}" disabled type="text" name="last_name" value="{{user.last_name}}">
+							<input class="input_{{user._id}}" disabled type="text" name="username" value="{{user.username}}">
+				 			<input class="input_{{user._id}}" disabled type="text" name="email" value="{{user.email}}">
+							<input class="input_{{user._id}}" disabled type="text" name="admin" value="{{user.admin}}">
+							<p>User since: {{user.created_at | date: 'short' }}</p>
+							<p>Last seen: {{user.updated_at | date: 'EEEE MMMM d, yyyy'}} at {{user.updated_at | date: 'shortTime'}}</p>
+							<button class="btn btn-primary edit_allow" id="control_{{user._id}}" ng-click="aControl.enableEdit(user._id)">Edit User</button>
+							<input type="submit" ng-click="aControl.updateUser(user._id)" value="Commit Changes" class="btn btn-primary" id="change_{{user._id}}" disabled>
+							<p ng-repeat="error in aControl.errors" class="error">{{error}}</p>
+							<form>
+								<input type="submit" value="Delete User" ng-click="aControl.deleteUser()" class="btn btn-danger" id="delete_{{user._id}}" disabled>
+							</form>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

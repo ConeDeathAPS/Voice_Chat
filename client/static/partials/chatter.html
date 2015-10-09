@@ -3,40 +3,39 @@
 
 </script>
 <div ng-controller="socketsController as sControl">
-	<div ng-controller='adminsController as aControl'>
-		<div class="row">
-			<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-				<h1 class="logo-small"><big>This thing</big></h1>
-				<h3>Welcome {{uControl.user.username}}</h3>
-				<button id="logout" ng-click="uControl.logout(); sControl.logout()" class="btn btn-danger">Logout</button>
-			</div>
+	<div class="row">
+		<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+			<h1 class="logo-small"><big>This thing</big></h1>
+			<h3>Welcome {{uControl.user.username}}</h3>
+			<button ng-click="uControl.logout(); sControl.logout()" class="btn btn-danger logout">Logout</button>
+			<button id="admin" class="btn btn-success" ng-click="uControl.gotoAdmin()" ng-if="uControl.user.admin">Admin Page</button>
 		</div>
-		<div class="row">
-			<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
-				<h3>All users</h3>
-				<ul id="user_list">
-					<li ng-repeat="user in uControl.users" class="user_list_item {{user.status}}" id="{{user.username}}" ng-bind="user.username"></li>
-				</ul>
-			</div>
-			<div id="chat_container">
-				<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
-					<audio id="audio_player" autoplay controls></audio>
-				</div>	
+	</div>
+	<div class="row">
+		<div class="col-sm-2 col-md-2 col-lg-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 user_monitor">
+			<h3>All users</h3>
+			<ul id="user_list">
+				<li ng-repeat="user in uControl.users" class="user_list_item {{user.status}}" id="{{user.username}}" ng-bind="user.username"></li>
+			</ul>
+		</div>
+		<div id="chat_container">
+			<div class="col-sm-4 col-md-4 col-lg-4 chat_monitor">
+				<audio id="audio_player" autoplay controls></audio>
+			</div>	
 <!-- 					<button id="join" class="btn btn-success" ng-click="sControl.joinRoom()">Join</button>
-					<button id="end" class="btn btn-danger">Leave</button> -->
-				<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
-					<div id="chat_area">
-					<!--chat messages will append here-->
-					</div>
-					<form id="chat_form" name="chat_form">
-						<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">
-						<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
-					</form>					
+				<button id="end" class="btn btn-danger">Leave</button> -->
+			<div class="col-sm-4 col-md-4 col-lg-4 user_chat">
+				<div id="chat_area">
+				<!--chat messages will append here-->
 				</div>
-				<!-- <div class="col-sm-1 col-md-1 col-lg-1 col-sm-offset-9 col-md-offset-9 col-lg-offset-9 volume"> -->
-					<!-- <canvas id="audio_level" style="height:500px;width:50px;"></canvas> -->
-				<!-- </div> -->
+				<form id="chat_form" name="chat_form">
+					<input type="text" name="chat_box" ng-model="sControl.chat.message" id="chat_box">
+					<input type="submit" class="btn btn-primary chat_submit" ng-click="sControl.sendMessage()" value="Chat">
+				</form>					
 			</div>
+			<!-- <div class="col-sm-1 col-md-1 col-lg-1 col-sm-offset-9 col-md-offset-9 col-lg-offset-9 volume"> -->
+				<!-- <canvas id="audio_level" style="height:500px;width:50px;"></canvas> -->
+			<!-- </div> -->
 		</div>
 	</div>
 </div>

@@ -11,6 +11,9 @@ var speakeasy = angular.module('speakeasy', ['ngRoute', 'ngCookies', 'angular-md
 		.when('/favicon.ico', {
 			templateUrl: '/static/assets/imgs/favicon.ico'
 		})
+		.when('/admins', {
+			templateUrl: '/static/partials/admin.html'
+		})
 	})
 
 
