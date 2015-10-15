@@ -25,5 +25,7 @@ speakeasy.controller('adminsController', function ($scope, $location, $cookies, 
 
 	}
 
+	
+
 
 })

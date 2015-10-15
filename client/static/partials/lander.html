@@ -19,7 +19,7 @@ $(document).ready(function() {
 				<h1>Please log in...</h1>
 				<input type="email" ng-model="uControl.login.email" name="email" placeholder="Email Address..." required>
 				<input type="password" ng-model="uControl.login.password" placeholder="Password..." required>
-				<input type="submit" ng-click="uControl.loginUser()" value="Log In" class="btn btn-primary lander_submit">
+				<input type="submit" ng-click="uControl.loginUser(); user_login.$setPristine()" value="Log In" class="btn btn-primary lander_submit">
 				<span class="error" ng-show="user_login.email.$dirty && user_login.email.$invalid">
 					<span class="error" ng-show="user_login.email.$error.required">Please enter an email address.</span>
 					<span class="error" ng-show="user_login.email.$error.email">Please enter a valid email address.</span>

@@ -6,7 +6,7 @@ speakeasy.factory('adminFactory', function($http) {
 	factory.changeInputClass = function (id) {
 		//when the edit button is clicked, enable the form
 		if ($(".input_" + id).attr('disabled')) {
-			console.log("Enabling form");
+			// console.log("Enabling form");
 			$(".input_" + id).removeAttr('disabled');
 			$("#delete_" + id).removeAttr('disabled');
 			$("#change_" + id).removeAttr('disabled');
@@ -15,7 +15,7 @@ speakeasy.factory('adminFactory', function($http) {
 		}
 		//if they click it again, disable the form
 		if (!($(".input_" + id).attr('disabled'))) {
-			console.log("Disabling form");
+			// console.log("Disabling form");
 			$(".input_" + id).attr('disabled', 'disabled');	
 			$("#delete_" + id).attr('disabled', 'disabled');
 			$("#change_" + id).attr('disabled', 'disabled');
