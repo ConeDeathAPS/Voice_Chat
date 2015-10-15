@@ -1,10 +1,10 @@
 # Voice_Chat
 
 ##Overview and project direction
-This voice chat app is designed to be a very streamlined peer-to-peer audio/text chat via socket.io over a node.js server utilizing WebRTCPeerConnection, ICE, STUN/TURN servers, and the getUserMedia() functionality built into the later versions of Chrome, Firefox, and Safari. I am working on this in my spare time, so there may be some extended periods without any progress. I also haven't come up with a name yet :-P
+This voice chat app is designed to be a very streamlined peer-to-peer audio/text chat via socket.io over a node.js server with an Express and MongoDB back-end and Angular front-end utilizing WebRTCPeerConnection, ICE, STUN/TURN servers, and the getUserMedia() functionality built into the later versions of Chrome, Firefox, and Safari. I am working on this in my spare time, so there may be some extended periods without any progress. I also haven't come up with a name yet :-P
 
 ##Voice Chat status
--- As of 10/15/2015, the biggest feature that still is not working is the voice chat itself. I am having issues sending the stream information with the WebRTC handshakes. Since the documentation is quite poor for WebRTC, it may be a matter of just refactoring the code until it works. You can follow along with what happens in the console and watch the handshake requests go out as well as any responses. 
+-- As of 10/15/2015, the biggest feature that still is not working is the voice chat itself. I am having issues sending the stream information with the WebRTC handshakes. Since the documentation is quite poor for WebRTC, it may be a matter of just refactoring the code until it works. You can follow along with what happens in the console and watch the handshake requests go out as well as any responses. I have been using [WebRTC-experiment](www.webrtc-experiment.com) to help with the signaling setup. Muaz has the best documentation I have been able to find, yet there are still some gaps in the information. He also provides a great Peer.js library that you can use to make connection establishment even easier.
 
 ##Overall functionality updates
 -- 10/15/2015 
